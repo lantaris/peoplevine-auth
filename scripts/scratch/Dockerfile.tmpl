@@ -1,5 +1,5 @@
 
-FROM centos:8
+FROM scratch
 
 LABEL maintainer="gotik.edik@gmail.com" name="Cloud Datalab PeopleVine auth proxy server" vendor="Cloud Datalab" license="Private" build-date="{{ BUILDDATE }}" version="{{ IMGVERS1 }}"
 
@@ -7,14 +7,5 @@ LABEL maintainer="gotik.edik@gmail.com" name="Cloud Datalab PeopleVine auth prox
 #                        INSTALLING                    #
 ########################################################
 
-ADD *.rpm /tmp/
-
-RUN dnf -y --disablerepo '*' --enablerepo=extras swap centos-linux-repos centos-stream-repos &&\
-    dnf -y clean all &&\
-    dnf -y install mariadb python3-pip &&\
-    dnf -y install /tmp/*.rpm &&\
-    dnf -y clean all &&\
-    pip3 install j2cli &&\
-    rm -rf /tmp/*
-
-ENTRYPOINT ["/usr/sbin//peoplevine-auth"]
+ADD peoplevine-auth /
+ENTRYPOINT ["/peoplevine-auth"]

@@ -7,13 +7,18 @@ PROJECT_PATH="${SCRIPT_PATH}/../"
 source ${PROJECT_PATH}/docker/SETTINGS
 
 # -----------------------------------------------------------------------------
+crate_dir() {
+   rm -rf ${PROJECT_PATH}/build
+   mkdir -p ${PROJECT_PATH}/build/go
+}
+
+# -----------------------------------------------------------------------------
 build_img() {
    _log "Build docker image [$LIBRARY/$IMAGENAME:$IMGVERS1]"
    export BUILDDATE=$(date +%Y%m%d)
    export IMAGENAME
    export IMGVERS1
    export IMGVERS2
-
    j2 -f env -o ${PROJECT_PATH}/build/Dockerfile     ${PROJECT_PATH}/docker/Dockerfile.tmpl
    pushd ${PROJECT_PATH}/build
      docker build -t "${LIBRARY}"/"${IMAGENAME}":"${IMGVERS1}" -t "${LIBRARY}"/"${IMAGENAME}":"${IMGVERS2}" .
@@ -49,6 +54,18 @@ docker_check_privileges() {
     fi
 }
 
+# -----------------------------------------------------------------------------
+build_go() {
+  cp -rf ${PROJECT_PATH}/pkg ${PROJECT_PATH}/build/go
+  cp -rf ${PROJECT_PATH}/peoplevine-auth ${PROJECT_PATH}/build/go
+  pushd ${PROJECT_PATH}/build/go
+    export GOPATH=$(pwd)
+    cd peoplevine-auth
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o ${PROJECT_PATH}/build/peoplevine-auth
+  popd
+  rm -rf ${PROJECT_PATH}/build/go
+}
+
 
 # -----------------------------------------------------------------------------
 
@@ -72,10 +89,9 @@ if [ "${?}" != "0" ]; then
   exit 127
 fi
 
-if ! compgen -G "${PROJECT_PATH}/build/*.x86_64.rpm" > /dev/null; then
-  _log "Build RPM package"
-  ${SCRIPT_PATH}/build-rpm.sh
-fi
+crate_dir
+
+build_go
 
 build_img
  
