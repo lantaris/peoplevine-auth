@@ -1,0 +1,13 @@
+[Unit]
+Description=PeopleVine auth proxy server
+After=network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/sbin/peoplevine-auth
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

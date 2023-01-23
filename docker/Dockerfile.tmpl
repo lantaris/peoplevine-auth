@@ -1,0 +1,11 @@
+
+FROM scratch
+
+LABEL maintainer="gotik.edik@gmail.com" name="Cloud Datalab PeopleVine auth proxy server" vendor="Cloud Datalab" license="Private" build-date="{{ BUILDDATE }}" version="{{ IMGVERS1 }}"
+
+########################################################
+#                        INSTALLING                    #
+########################################################
+
+ADD peoplevine-auth /
+ENTRYPOINT ["/peoplevine-auth"]
