@@ -2,6 +2,7 @@ package rest_func
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
 	"peoplevine-auth/logger"
 	"peoplevine-auth/pv_types"
@@ -18,15 +19,20 @@ func RestFunc(w http.ResponseWriter, r *http.Request) {
 	ResponseData.Status.Errcode = pv_types.RET_OK
 	ResponseData.Status.Errmsg = "OK"
 
-	logger.Logger.Infoln("REST: Request from", r.RemoteAddr, "[", r.RequestURI, "]")
+	Endpoint = mux.CurrentRoute(r).GetName()
 
-	Endpoint = r.RequestURI
+	logger.Logger.Infoln("Request: ", Endpoint)
+	logger.Logger.Traceln("REST: Request from", r.RemoteAddr, "[", r.RequestURI, "]")
+
 	// Gateway endpoints
-	if Endpoint == "/auth" {
+	if Endpoint == "AuthFull" {
 		restPVAuth(w, r, true)
 		return
-	} else if Endpoint == "/simple" {
+	} else if Endpoint == "AuthSimple" {
 		restPVAuth(w, r, false)
+		return
+	} else if Endpoint == "GETAuthSimple" {
+		restPVAuthGet(w, r, false)
 		return
 	} else {
 		ResponseData.Status.Errcode = pv_types.RET_ERROR
