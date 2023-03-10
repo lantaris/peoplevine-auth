@@ -13,6 +13,7 @@ Service features:
 - [Endpoints](#Endpoints)
    - [Request for detailed response](#Request-for-detailed-response)
    - [Request for simple response](#Request-for-simple-response)
+   - [GET Request for simple response](#GET-Request-for-simple-response)   
 - [Response status codes](#Response-status-codes)
 
 ## Building binaries
@@ -310,6 +311,36 @@ Endpoints for service
 |                 |     "password": string                | User password                    |
 |                 |     }                                 |                                  |
 |                 | }                                     |                                  |
+
+
+|  Response       | Value                                  |   Description                    |
+| --------------- | -------------------------------------- | -------------------------------- |
+| Data:           | {                                      |                                  |
+|                 |   "status": {                          | Return status code and message   |
+|                 |     "errcode": int,                    | ( if 0 authentication succes )   |
+|                 |     "errmsg": string                   |                                  |
+|                 |   },                                   |                                  |
+|                 |   "data": null                         |                                  |
+|                 | }                                      |                                  |
+| Response code   | 200 OK                                 |                                  |
+
+## GET Request for simple response
+
+Request (GET type) for simple response
+
+Request:  http://<IP:port>/getsimple/{auth_api_username}/{auth_api_password}/{auth_api_key}/{auth_company_no}/{auth_username}/{auth_password}/{credentials_company_no}/{credentials_email}/{credentials_password}
+
+| Value                                 |   Description                    |
+| ------------------------------------- | -------------------------------- |
+|     auth_api_username: string         | PeopleVine API user name         |  
+|     auth_api_password: string         | PeopleVine API password          | 
+|     auth_api_key: string              | PeopleVine API key               |
+|     auth_company_no: int              | User company ID                  |
+|     auth_username: string             | Company user name                |
+|     auth_password: string             | Company password                 |
+|     credentioal_company_no: int       | User company ID                  |
+|     credentioal_email: string         | User email                       |
+|     credentioal_password: string      | User password                    |
 
 
 |  Response       | Value                                  |   Description                    |
