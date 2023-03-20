@@ -6,5 +6,5 @@ IMGVERS1="0.0.1"
 IMGVERS2="latest"   #(latest/beta)
 
 # Registry settings
-LIBRARY="hub.docker.com/lantaris"
+LIBRARY="lantaris"
 
