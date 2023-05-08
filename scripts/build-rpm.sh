@@ -97,14 +97,14 @@ do_exit() {
 do_prep_rpm_src() {
   _log "Prepare RPM source"
   rm -rf ${PROJECT_PATH}/build
-  mkdir -p ${PROJECT_PATH}/build/rpm/peoplevine-auth
-  cp -rf ${PROJECT_PATH}/pkg ${PROJECT_PATH}/build/rpm/peoplevine-auth
-  cp -rf ${PROJECT_PATH}/peoplevine-auth ${PROJECT_PATH}/build/rpm/peoplevine-auth
-  cp -rf ${PROJECT_PATH}/systemd ${PROJECT_PATH}/build/rpm/peoplevine-auth
-  cp -rf ${PROJECT_PATH}/peoplevine-auth.spec ${PROJECT_PATH}/build/rpm/
-  cp -rf ${PROJECT_PATH}/README.md ${PROJECT_PATH}/build/rpm/peoplevine-auth
+  mkdir -p ${PROJECT_PATH}/build/rpm/pvldap
+  cp -rf ${PROJECT_PATH}/pkg ${PROJECT_PATH}/build/rpm/pvldap
+  cp -rf ${PROJECT_PATH}/pvldap ${PROJECT_PATH}/build/rpm/pvldap
+  cp -rf ${PROJECT_PATH}/systemd ${PROJECT_PATH}/build/rpm/pvldap
+  cp -rf ${PROJECT_PATH}/pvldap.spec ${PROJECT_PATH}/build/rpm/
+  cp -rf ${PROJECT_PATH}/README.md ${PROJECT_PATH}/build/rpm/pvldap
   pushd ${PROJECT_PATH}/build/rpm
-    tar czf peoplevine-auth.tgz peoplevine-auth
+    tar czf pvldap.tgz pvldap
   popd
 }
 
@@ -135,6 +135,6 @@ docker_run
 docker_exec "dnf -y --disablerepo '*' --enablerepo=extras swap centos-linux-repos centos-stream-repos"
 docker_exec "dnf -y install epel-release"
 docker_exec "dnf -y install mock"
-docker_exec "mock --buildsrpm --spec /build/rpm/peoplevine-auth.spec --sources /build/rpm  --resultdir=/build/rpm"
+docker_exec "mock --buildsrpm --spec /build/rpm/pvldap.spec --sources /build/rpm  --resultdir=/build/rpm"
 docker_exec "mock --resultdir=/build/rpm /build/rpm/*.rpm && cp -f /build/rpm/*.x86_64.rpm /build && rm -rf /build/rpm"
  

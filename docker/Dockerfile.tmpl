@@ -17,4 +17,4 @@ RUN dnf -y --disablerepo '*' --enablerepo=extras swap centos-linux-repos centos-
     pip3 install j2cli &&\
     rm -rf /tmp/*
 
-ENTRYPOINT ["/usr/sbin//peoplevine-auth"]
+ENTRYPOINT ["/usr/sbin/pvldap"]
